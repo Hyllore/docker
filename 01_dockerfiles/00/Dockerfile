@@ -1,5 +1,6 @@
-FROM alpine:latest
+FROM alpine
 MAINTAINER Dorian ROLY <droly@student.42.fr>
-RUN apt-get update \
-    && apt-get install -y \
-    vim
+RUN apk update && \
+    apk upgrade && \
+    apk add vim
+ENTRYPOINT vim
