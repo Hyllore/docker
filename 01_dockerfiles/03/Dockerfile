@@ -60,3 +60,6 @@ USER root
 #CMD /bin/bash
 CMD ls -la /home/git/go/src/github.com/gogits/gogs && su git -c "./home/git/go/src/github.com/gogits/gogs/gogs web"
 
+
+#https://pdemro.com/gogs-how-to-set-up-an-ssh-key-when-using-docker-bonus-caddy-config/
+#https://help.github.com/articles/connecting-to-github-with-ssh/
