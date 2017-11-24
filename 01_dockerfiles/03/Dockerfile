@@ -1,7 +1,7 @@
 FROM debian
 
 RUN apt-get -y update && apt-get -y upgrade
-RUN apt-get install -y git wget gcc
+RUN apt-get install -y git wget gcc ssh
 RUN apt-get update && apt-get upgrade
 
 #USER root
@@ -50,12 +50,19 @@ RUN cd ~ && mkdir local && wget https://storage.googleapis.com/golang/go1.9.linu
 && ~/local/go/bin/go get -u -tags "sqlite" github.com/gogits/gogs \
 && cd $GOPATH/src/github.com/gogits/gogs \
 && ~/local/go/bin/go build -tags "sqlite"
-
 #RUN mkdir $GOPATH/src/github.com/gogits/logs
 #RUN mkdir /root/gogs-repositories
 #RUN mkdir /root/data
 
 USER root
+
+#RUN echo "    AddKeysToAgent yes" >> /etc/ssh/ssh_config \
+#&& echo "    UseKeychain yes" >> /etc/ssh/ssh_config \
+#&& echo "    IdentityFile ~/.ssh/id_rsa" >> /etc/ssh/ssh_config 
+
+EXPOSE 3000
+EXPOSE 3306
+EXPOSE 2222
 
 #CMD /bin/bash
 CMD ls -la /home/git/go/src/github.com/gogits/gogs && su git -c "./home/git/go/src/github.com/gogits/gogs/gogs web"
