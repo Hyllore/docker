@@ -21,19 +21,20 @@ RUN cd ~ && mkdir local && wget https://storage.googleapis.com/golang/go1.9.linu
 && mkdir -p $GOPATH/src/github.com/gogits \
 && cd $GOPATH/src/github.com/gogits \
 && git clone --depth=1 -b develop https://github.com/gogits/gogs \
-&& cd gogs &&  ~/local/go/bin/go build \
+&& cd gogs && mkdir custom && mkdir custom/conf &&  ~/local/go/bin/go build \
 && ~/local/go/bin/go get -u -tags "sqlite" github.com/gogits/gogs \
 && cd $GOPATH/src/github.com/gogits/gogs \
-&& ~/local/go/bin/go build -tags "sqlite"
-
+&& ~/local/go/bin/go build -tags "sqlite" \
+&& echo "[server]\nDOMAIN = 192.168.99.100\nSSH_PORT = 10022\nSTART_SSH_SERVER = true\n[database]\nDB_TYPE = sqlite3\nPATH = /home/git/gogs/data/gogs.db" > custom/conf/app.ini
 USER root
+RUN echo "git:lol" | chpasswd && echo "root:root" | chpasswd
 
 EXPOSE 3000
 EXPOSE 3306
 EXPOSE 2222
 
-CMD ls -la /home/git/go/src/github.com/gogits/gogs && su git -c "./home/git/go/src/github.com/gogits/gogs/gogs web"
+CMD su git -c "cd /home/git/go/src/github.com/gogits/gogs/ && ./gogs web"
 
 
 # docker build -t gog .
-# docker run -p 3000:3000 -p 3306:3306 -p 10022:22 -it --entrypoint /bin/bash gog
+# docker run -p 3000:3000 -p 10022:22 -it  gog
