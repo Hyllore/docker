@@ -12,7 +12,7 @@ ONBUILD RUN bundle install &&\
 rake db:migrate && \
 rake db:seed
 # pour tester, il faut une app rails dans laquelle il y aura un Dockerfile tel
-# # FROM ft_rails:wq
+# # FROM ex02
 #
 # # CMD ["rails", "s", "-b", "0.0.0.0"]
 #
